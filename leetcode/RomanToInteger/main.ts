@@ -58,18 +58,15 @@ const romanNumbersMap: { [key: string]: number } = {
 export default class RomanToInteger {
     getInteger(romanStr: string = ''): number {
         let result: number = 0;
-        let currentRomanStr: string = '';
 
         for (let i = 0; i < romanStr.length; i++) {
-            if (currentRomanStr + romanStr[i] in romanNumbersMap) {
-                currentRomanStr += romanStr[i];
-            } else {
-                result += romanNumbersMap[currentRomanStr];
-                currentRomanStr = romanStr[i];
-            }
+            const currentNumber = romanNumbersMap[romanStr[i]];
+            const nextNumber = romanNumbersMap[romanStr[i + 1]];
 
-            if (i === romanStr.length - 1) {
-                result += romanNumbersMap[currentRomanStr];
+            if (currentNumber < nextNumber) {
+                result -= currentNumber;
+            } else {
+                result += currentNumber;
             }
         }
 
