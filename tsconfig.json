@@ -28,6 +28,7 @@
     "removeComments": true,
     "rootDir": ".",
     "sourceMap": true,
-    "target": "ES6"
+    "target": "ES6",
+    "strict": true
   }
 }
