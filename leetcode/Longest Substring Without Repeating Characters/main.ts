@@ -23,7 +23,7 @@
  */
 
 export default class LongestSubstringWithoutRepeatingCharacters {
-    getString(s: string): number {
+    getLength(s: string): number {
         let longestStr = '';
         let tempStr = '';
         let i = 0;
