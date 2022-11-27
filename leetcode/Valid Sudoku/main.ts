@@ -51,44 +51,32 @@ export default class SudokuValidator {
     readonly EMPTY_CELL = '.';
 
     validate(board: Board): boolean {
-        return this.checkRowsValidity(board) &&
-            this.checkColumnsValidity(board) &&
-            this.checkBoxesValidity(board);
+        return this.checkColsRowsValidity(board) && this.checkBoxesValidity(board);
     }
 
-    private checkRowsValidity(board: Board): boolean {
+    private checkColsRowsValidity(board: Board): boolean {
         for (let i = 0; i < this.BOARD_SIZE; i++) {
-            const allowedChars: string[] = [board[i][0]];
+            const rowChars: string[] = [];
+            const colChars: string[] = [];
 
-            for (let j = 1; j < this.BOARD_SIZE; j++) {
-                if (board[i][j] === this.EMPTY_CELL) {
-                    continue;
+            for (let j = 0; j < this.BOARD_SIZE; j++) {
+                const rowCell = board[i][j];
+                const colCell  = board[j][i];
+
+                if (rowCell !== this.EMPTY_CELL) {
+                    if (!rowChars.includes(rowCell)) {
+                        rowChars.push(rowCell);
+                    } else {
+                        return false;
+                    }
                 }
 
-                if (!allowedChars.includes(board[i][j])) {
-                    allowedChars.push(board[i][j]);
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private checkColumnsValidity(board: Board): boolean {
-        for (let i = 0; i < this.BOARD_SIZE; i++) {
-            const allowedChars: string[] = [board[0][i]];
-
-            for (let j = 1; j < this.BOARD_SIZE; j++) {
-                if (board[j][i] === this.EMPTY_CELL) {
-                    continue;
-                }
-
-                if (!allowedChars.includes(board[j][i])) {
-                    allowedChars.push(board[j][i]);
-                } else {
-                    return false;
+                if (colCell !== this.EMPTY_CELL) {
+                    if (!colChars.includes(colCell)) {
+                        colChars.push(colCell);
+                    } else {
+                        return false;
+                    }
                 }
             }
         }
