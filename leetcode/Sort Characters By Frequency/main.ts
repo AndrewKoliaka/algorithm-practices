@@ -32,11 +32,7 @@ export default class FrequencySort {
 
         return Object.entries(map)
             .sort((a: [string, number], b: [string, number]) => a[1] > b[1] ? -1 : 1)
-            .reduce((acc, item: [string, number]) => {
-                acc += item[0].repeat(item[1]);
-
-                return acc;
-            }, '');
+            .reduce((acc, item: [string, number]) => acc += item[0].repeat(item[1]), '');
     }
 
     getFrequencyMap(str: string): { [char: string]: number } {
