@@ -15,30 +15,28 @@ const ASTERISK = '*';
 
 export default class TestRegex {
     test(str: string, regex: string): boolean {
-        const regexArr = this.splitRegex(regex);
         let tempStr = str;
 
         while (tempStr) {
 
             // active regex string
-            const currentRegexChunk = regexArr[0];
+            const currentRegexChunk = regex[0];
 
             if (currentRegexChunk === ASTERISK) {
 
                 // check if there are more regex chunks exist
-                if (regexArr.length > 1) {
+                if (regex.length > 1) {
 
                     // next regex chunk string
-                    const nextRegexChunk = regexArr[1];
+                    const nextRegexChunk = regex[1];
 
                     // check if current string starts with next regex chunk
                     if (tempStr.startsWith(nextRegexChunk)) {
 
                         // if so cut this chunk from current regex array and cut this text from current string
                         // along with current asterisk
-                        tempStr = tempStr.slice(nextRegexChunk.length);
-                        regexArr.shift();
-                        regexArr.shift();
+                        tempStr = tempStr.slice(1);
+                        regex = regex.slice(2);
                     } else {
 
                         // if does not start - cut 1 char from current string and continue
@@ -53,15 +51,15 @@ export default class TestRegex {
 
               // cut 1 char from current string and remove first element from current regex arr
               tempStr = tempStr.slice(1);
-              regexArr.shift();
+              regex = regex.slice(1);
             } else {
 
                 // check if current string starts with regex char
                 if (tempStr.startsWith(currentRegexChunk)) {
 
                     // if so cut this substring from current string and remove first element from current regex arr
-                    tempStr = tempStr.slice(currentRegexChunk.length);
-                    regexArr.shift();
+                    tempStr = tempStr.slice(1);
+                    regex = regex.slice(1);
                 } else {
 
                     // return false if it does not match
@@ -72,30 +70,5 @@ export default class TestRegex {
 
         // return true if every chunk of regex arr matched the string
         return true;
-    }
-    splitRegex(regex: string): string[] {
-        const regexArr = [];
-        let temp = '';
-
-        for (let i = 0; i < regex.length; i++) {
-            if (regex[i] === PERIOD || regex[i] === ASTERISK) {
-                if (temp) {
-                    regexArr.push(temp);
-                }
-
-                regexArr.push(regex[i]);
-                temp = '';
-
-                continue;
-            }
-
-            temp += regex[i];
-
-            if (i === regex.length - 1) {
-                regexArr.push(temp);
-            }
-        }
-
-        return regexArr;
     }
 }
